@@ -8,7 +8,7 @@ public class Cannon : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        StartCoroutine(ShootRoutine());
+        InvokeRepeating("InvokeShooting",4.0f,4.0f);
     }
 
     // Update is called once per frame
@@ -19,7 +19,11 @@ public class Cannon : MonoBehaviour
     IEnumerator ShootRoutine()
     {
          Instantiate(bala,transform.position,transform.rotation);
-        yield return new WaitForSeconds(4.0f);
-        StartCoroutine(ShootRoutine());
+        yield return new WaitForSeconds(0);
+       
+    }
+    public void InvokeShooting()
+    {
+        StartCoroutine (ShootRoutine());
     }
 }
