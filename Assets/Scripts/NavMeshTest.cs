@@ -17,7 +17,6 @@ public class JumpBetweenPlatforms : MonoBehaviour
         StartNavigation();
         
     }
-<<<<<<< Updated upstream
 
     void Update()
     {
@@ -27,11 +26,6 @@ public class JumpBetweenPlatforms : MonoBehaviour
     {
         
         agent.SetDestination(new Vector3(destination[targetcontrol].position.x,destination[targetcontrol].position.y,Random.Range(-4.7f,4.7f)));
-=======
-    private void StartNavigation()
-    {
-        agent.SetDestination(new Vector3(destination[targetcontrol].position.x,destination[targetcontrol].position.y,destination[targetcontrol].position.z + Random.Range(-4.7f,4.7f)));
->>>>>>> Stashed changes
     }
     private void OnTriggerEnter(Collider other)
     {
