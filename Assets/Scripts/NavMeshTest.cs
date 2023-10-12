@@ -24,9 +24,15 @@ public class JumpBetweenPlatforms : MonoBehaviour
     }
     private void StartNavigation()
     {
-        
-        agent.SetDestination(new Vector3(destination[targetcontrol].position.x,destination[targetcontrol].position.y,Random.Range(-4.7f,4.7f)));
-    }
+        if (targetcontrol != 2)
+        {
+            agent.SetDestination(new Vector3(destination[targetcontrol].position.x, destination[targetcontrol].position.y, (destination[targetcontrol].position.z + Random.Range(-4.7f, 4.7f))));
+        }
+        else
+        {
+            agent.SetDestination(new Vector3(destination[targetcontrol].position.x+Random.Range(-4.7f,4.7f), destination[targetcontrol].position.y, destination[targetcontrol].position.z ));
+        }
+        }
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Jump"))
@@ -40,6 +46,15 @@ public class JumpBetweenPlatforms : MonoBehaviour
                 rb.AddForce(Vector3.up * heightjump, ForceMode.Impulse);
             }
 
+        }
+        if (other.CompareTag("Explosion"))
+        {
+            Destroy(this.gameObject);
+            Destroy(other.gameObject);
+        }
+        if (other.CompareTag("Helix"))
+        {
+            Destroy(this.gameObject);
         }
        
     }

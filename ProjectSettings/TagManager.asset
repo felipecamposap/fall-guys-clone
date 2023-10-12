@@ -7,6 +7,8 @@ TagManager:
   - NavMeshLink
   - Jump
   - Ground
+  - Explosion
+  - Helix
   layers:
   - Default
   - TransparentFX

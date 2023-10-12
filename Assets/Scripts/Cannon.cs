@@ -5,10 +5,11 @@ using UnityEngine;
 public class Cannon : MonoBehaviour
 {
     [SerializeField] private GameObject bala;
+    [SerializeField] private float firerate;
     // Start is called before the first frame update
     void Start()
     {
-        InvokeRepeating("InvokeShooting",4.0f,4.0f);
+        InvokeRepeating("InvokeShooting",firerate,firerate);
     }
 
     // Update is called once per frame
