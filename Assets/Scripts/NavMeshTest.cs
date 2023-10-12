@@ -11,6 +11,7 @@ public class JumpBetweenPlatforms : MonoBehaviour
     [SerializeField] private float heightjump;
     [SerializeField] private bool isjumping=false;
     [SerializeField] private int targetcontrol;
+    [SerializeField] private GameObject explosion;
     void Start()
     {
         
@@ -49,6 +50,7 @@ public class JumpBetweenPlatforms : MonoBehaviour
         }
         if (other.CompareTag("Explosion"))
         {
+            Instantiate(explosion, transform.position, Quaternion.Euler(-90,0,0));
             Destroy(this.gameObject);
             Destroy(other.gameObject);
         }
