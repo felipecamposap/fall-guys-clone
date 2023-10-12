@@ -14,8 +14,9 @@ public class JumpBetweenPlatforms : MonoBehaviour
     [SerializeField] private GameObject explosion;
     void Start()
     {
-        
+        agent.speed = Random.Range(3.5f, 5);
         StartNavigation();
+        
         
     }
 
@@ -25,7 +26,7 @@ public class JumpBetweenPlatforms : MonoBehaviour
     }
     private void StartNavigation()
     {
-        if (targetcontrol != 2)
+        if (targetcontrol < 2)
         {
             agent.SetDestination(new Vector3(destination[targetcontrol].position.x, destination[targetcontrol].position.y, (destination[targetcontrol].position.z + Random.Range(-4.7f, 4.7f))));
         }
@@ -57,6 +58,7 @@ public class JumpBetweenPlatforms : MonoBehaviour
         if (other.CompareTag("Helix"))
         {
             Destroy(this.gameObject);
+            Instantiate(explosion, transform.position, Quaternion.Euler(-90, 0, 0));
         }
        
     }
