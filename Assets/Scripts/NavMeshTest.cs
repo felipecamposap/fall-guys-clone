@@ -4,77 +4,55 @@ using UnityEngine;
 using UnityEngine.AI;
 
 public class JumpBetweenPlatforms : MonoBehaviour
-{
-    public NavMeshAgent agent;
-    public NavMeshLink currentLink;
+{   public NavMeshAgent agent;
     [SerializeField] private Transform destination;
-    public bool isJumping = false;
-    private Vector3 jumpStartPosition;
-    public float jumpHeight = 2.0f; // Altura do salto ajustada para 10.0f
-    public float jumpDuration = 2.0f; // Duração do salto ajustada para 2.0f
-
-    private Vector3 jumpStartPoint;
-    private Vector3 jumpEndPoint;
-    private float jumpStartTime;
-
+    [SerializeField] private Rigidbody rb;
+    [SerializeField] private float distancejump;
+    [SerializeField] private float heightjump;
+    [SerializeField] private bool isjumping=false;
     void Start()
     {
-        agent = GetComponent<NavMeshAgent>();
-        agent.SetDestination(destination.position);
-        agent.autoTraverseOffMeshLink = false; // Desativa a travessia automática de links
+        
+        StartNavigation();
+        
     }
 
     void Update()
     {
-        if (agent.isOnOffMeshLink && !isJumping)
-        {
-            StartJump();
-        }
-
-        if (isJumping)
-        {
-            UpdateJump();
-        }
+       
     }
-
-    void StartJump()
+    private void StartNavigation()
     {
-        isJumping = true;
-        jumpStartPosition = transform.position;
-
-        // Obtém os pontos de início e fim do NavMeshLink
-        jumpStartPoint = currentLink.startPoint;
-        jumpEndPoint = currentLink.endPoint;
-        jumpStartTime = Time.time;
-
-        // Desativa o NavMeshAgent durante o salto
-        agent.isStopped = true;
+        agent.SetDestination(destination.position);
     }
-
-    void UpdateJump()
+    private void OnTriggerEnter(Collider other)
     {
-        // Calcula o progresso do salto
-        float jumpProgress = (Time.time - jumpStartTime) / jumpDuration;
-        jumpProgress = Mathf.Clamp01(jumpProgress); // Certifica-se de que o progresso esteja entre 0 e 1
-
-        // Calcula a altura do salto usando uma trajetória parabólica
-        float jumpHeightProgress = Mathf.Sin(jumpProgress * Mathf.PI);
-        Vector3 jumpPosition = Vector3.Lerp(jumpStartPoint, jumpEndPoint, jumpProgress);
-        jumpPosition.y += jumpHeight * jumpHeightProgress; // Define a altura do salto
-
-        // Move o agente para a posição calculada do salto
-        agent.transform.position = jumpPosition;
-
-        // Verifica se o salto foi concluído
-        if (jumpProgress >= 1.0f)
+        if (other.CompareTag("Jump"))
         {
-            isJumping = false;
+            isjumping = true;
+            if (isjumping)
+            {
+                agent.enabled = false;
 
-            // Reativa o NavMeshAgent
-            agent.isStopped = false;
+                rb.AddForce(transform.forward * distancejump, ForceMode.Impulse);
+                rb.AddForce(Vector3.up * heightjump, ForceMode.Impulse);
+            }
 
-            // Avança manualmente para o próximo ponto na navegação
-            agent.CompleteOffMeshLink();
+        }
+       
+    }
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.collider.CompareTag("Ground"))
+        {
+            isjumping = false;
+            agent.enabled = true;
+            StartNavigation();
+
         }
     }
+    
+
+
+
 }
