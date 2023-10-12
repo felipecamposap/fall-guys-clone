@@ -5,6 +5,8 @@ TagManager:
   serializedVersion: 2
   tags:
   - NavMeshLink
+  - Jump
+  - Ground
   layers:
   - Default
   - TransparentFX

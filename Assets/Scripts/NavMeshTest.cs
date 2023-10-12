@@ -5,11 +5,12 @@ using UnityEngine.AI;
 
 public class JumpBetweenPlatforms : MonoBehaviour
 {   public NavMeshAgent agent;
-    [SerializeField] private Transform destination;
+    [SerializeField] private Transform[] destination;
     [SerializeField] private Rigidbody rb;
     [SerializeField] private float distancejump;
     [SerializeField] private float heightjump;
     [SerializeField] private bool isjumping=false;
+    [SerializeField] private int targetcontrol;
     void Start()
     {
         
@@ -23,7 +24,8 @@ public class JumpBetweenPlatforms : MonoBehaviour
     }
     private void StartNavigation()
     {
-        agent.SetDestination(destination.position);
+        
+        agent.SetDestination(new Vector3(destination[targetcontrol].position.x,destination[targetcontrol].position.y,Random.Range(-4.7f,4.7f)));
     }
     private void OnTriggerEnter(Collider other)
     {
@@ -47,8 +49,9 @@ public class JumpBetweenPlatforms : MonoBehaviour
         {
             isjumping = false;
             agent.enabled = true;
+            targetcontrol++;
             StartNavigation();
-
+            
         }
     }
     
