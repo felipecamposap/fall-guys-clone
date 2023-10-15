@@ -3,15 +3,21 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - NavMeshLink
+  - Jump
+  - Ground
+  - Explosion
+  - Helix
+  - Victory
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Bloom
   - Water
   - UI
-  - 
+  - Player
   - 
   - 
   - 
