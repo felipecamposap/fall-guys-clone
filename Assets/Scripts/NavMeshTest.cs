@@ -13,12 +13,13 @@ public class JumpBetweenPlatforms : MonoBehaviour
     [SerializeField] private int targetcontrol;
     [SerializeField] private GameObject explosion;
     [SerializeField] GameObject groundType;
-
     [SerializeField] GameObject firework;
+    private Player player;
 
 
     void Start()
     {
+        player = FindFirstObjectByType<Player>();
         agent.speed = Random.Range(3.5f, 5);
         StartNavigation();
     }
@@ -49,6 +50,7 @@ public class JumpBetweenPlatforms : MonoBehaviour
         }
 
         if (other.CompareTag("Victory")){
+            player.Defeat();
             Instantiate(firework, transform.position, Quaternion.identity);
             Destroy(gameObject);
 

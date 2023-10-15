@@ -1,5 +1,6 @@
+using TMPro;
 using UnityEngine;
-
+using UnityEngine.SceneManagement;
 public class Player : MonoBehaviour
 {
 
@@ -10,12 +11,12 @@ public class Player : MonoBehaviour
     [SerializeField] Transform orientation;
     float horizontalInput, verticalInput;
     Vector3 moveDir;
+    bool isJumping, gameEnded;
 
-    bool isJumping;
-
+    [Header("Referencias: ")]
+    [SerializeField] private TMP_Text txtVitoria;
     [SerializeField] GameObject explosion;
     [SerializeField] GameObject firework;
-    
 
     // Update is called once per frame
     private void Update()
@@ -51,32 +52,24 @@ public class Player : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Victory")){
-            Instantiate(firework, transform.position, Quaternion.identity);
-            //GameController.controller.WinLose(1);
-            Destroy(gameObject, 0.1f);
-            Debug.Log("AAAAAAAAAAAA");
+        if (other.CompareTag("Victory"))
+        {
+            Victory();
         }
         if (other.CompareTag("Explosion") || other.CompareTag("Helix"))
         {
             //GameController.controller.WinLose(0);
-            Destroy(gameObject);
+            Defeat();
             Instantiate(explosion, transform.position, transform.rotation);
-            if(other.CompareTag("Explosion"))
+            if (other.CompareTag("Explosion"))
                 Destroy(other.gameObject);
         }
-        
-        
-    }
-
-    private void OnDestroy()
-    {
-        
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Ground")){
+        if (collision.gameObject.CompareTag("Ground"))
+        {
             rb.drag = 0.2f;
             isJumping = false;
         }
@@ -85,5 +78,37 @@ public class Player : MonoBehaviour
     private void OnCollisionExit(Collision collision)
     {
         rb.drag = 0.1f;
+    }
+
+    public void Victory()
+    {
+        if (!gameEnded)
+        {
+            gameEnded = true;
+            Instantiate(firework, transform.position, Quaternion.identity);
+            GetComponentInChildren<MeshRenderer>().enabled = false;
+            rb.isKinematic = true;
+            txtVitoria.text = "VITÓRIA!";
+            Invoke("Reset", 3f);
+        }
+
+    }
+
+    public void Defeat()
+    {
+        if (!gameEnded)
+        {
+            gameEnded = true;
+            GetComponentInChildren<MeshRenderer>().enabled = false;
+            rb.isKinematic = true;
+            txtVitoria.color = Color.red;
+            txtVitoria.text = "DERROTA!";
+            Invoke("Reset", 3f);
+        }
+    }
+
+    public void Reset()
+    {
+        SceneManager.LoadScene(1);
     }
 }
