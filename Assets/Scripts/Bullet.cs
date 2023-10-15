@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Bullet : MonoBehaviour
@@ -10,8 +8,9 @@ public class Bullet : MonoBehaviour
     void Start()
     {
         rb.AddForce(transform.forward * speed);
+        Destroy(this.gameObject, 5f);
     }
 
-    // Update is called once per frame
+    
   
 }

@@ -9,6 +9,7 @@ TagManager:
   - Ground
   - Explosion
   - Helix
+  - Victory
   layers:
   - Default
   - TransparentFX
